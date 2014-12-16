@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test de node.js & socket.io </title> 
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+            .container {
+                margin: 0 auto;
+                width: 960px;
+            }
+            
+            #buffer {
+                margin: 2em 0;
+                border-radius: 10px;
+                padding: 1em;
+                border:2px #000 dashed;
+                color: greenyellow;
+                background-color: black;
+                
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div class="container">
+        <h2>Test de sockets</h2>        
+        <input id="mensaje" type="text"/>
+        <button onclick="enviarMensaje();">Enviar mensaje</button>        
+        <button onclick="verMensajes();">Ver mensajes</button>
+        <button onclick="borrarMensajes();">Borrar mensajes</button>
+        <div id="buffer"></div>
+        </div>
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <script>       
+
+         var socket = io();      
+         socket.on('connect', function(){ 
+             console.log("conectado");
+         });
+         
+         socket.on('message', function(data){
+             if (data.constructor === Array){
+                 var htmlList = '<ul>';
+                 for(var i=0;i<data.length;i++){
+                     htmlList+='<li>'+data[i]+'</li>';
+                 }
+                 htmlList+='</ul>';
+                 $('#buffer').html(htmlList);
+             }
+             else {
+                 $('#buffer').text(data);
+             }
+             
+             console.log("mensaje recibido: " + data);
+         }); 
+         
+          var enviarMensaje = function(data){
+               socket.send($('#mensaje').val());
+               $('#mensaje').val('');
+           };   
+           
+          var verMensajes = function(){
+               socket.emit('getMsgs');
+           }; 
+           
+           var borrarMensajes = function(){
+               socket.emit('clearMsgs');
+           };
+           
+        </script>
+    </body>
+</html>
