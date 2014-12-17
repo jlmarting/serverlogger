@@ -2,12 +2,14 @@ var http=require("http");
 var fs=require("fs");
 var socket = require("socket.io");
 
-var port = 8374;
+var port = 9911;
 
 var bufferMsg = new Array;
 
-var httpServer = http.createServer (function(req,res){
-    fs.readFile('test1.html',function(err,html){
+var httpServer = http.createServer (function(req,res){   
+       
+    console.log('solicitud: ' + req.url);
+    fs.readFile('.'+req.url,function(err,html){
         if(err){
            res.writeHead(200,{'Content-type':'text/html'});
            res.end();
@@ -16,7 +18,7 @@ var httpServer = http.createServer (function(req,res){
             res.writeHead(200,{'Content-type':'text/html'});
             res.end(html);                
         }     
-    }); 
+        });
        
     }).listen(port);
 
@@ -29,13 +31,7 @@ io.sockets.on('connection', function(socket){
 
     socket.send('Conexión aceptada');
     
-    socket.on('getMsgs', function(){
-       /* var htmlList = '<ul>';
-        for(var i=0;i<bufferMsg.length;i++){
-            htmlList += '<li>'+bufferMsg[i]+'</li>';
-        }
-        htmlList += '</ul>';
-        */
+    socket.on('getMsgs', function(){      
         socket.send(bufferMsg);
     });
     

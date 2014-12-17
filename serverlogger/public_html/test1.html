@@ -25,13 +25,13 @@
         <div class="container">
         <h2>Test de sockets</h2>        
         <input id="mensaje" type="text"/>
-        <button onclick="enviarMensaje();">Enviar mensaje</button>        
-        <button onclick="verMensajes();">Ver mensajes</button>
-        <button onclick="borrarMensajes();">Borrar mensajes</button>
+        <button onclick="enviarMensaje();">Send message</button>        
+        <button onclick="verMensajes();">See messages</button>
+        <button onclick="borrarMensajes();">Delete all messages</button>
         <div id="buffer"></div>
         </div>
-        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <script src="/libs/socket.io.js"></script>
+        <script src="/libs/jquery-1.11.1.min.js"></script>
         <script>       
 
          var socket = io();      
